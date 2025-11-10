@@ -1,0 +1,250 @@
+\section{Sequential Classical Planning in SAT}
+
+
+\begin{frame}<1>{Classical Planning via SAT [Kautz\&Selman'92]}
+  \vspace{-1cm}
+	\begin{center}
+      \input{kautzSequence.tikz}
+	\end{center}
+	A plan is just a sequence of state transitions.
+	\begin{itemize}
+		\item ``Mechanics'' is identical in all timesteps.
+		\item Just model one timestep and copy'n'paste.
+		\item Edge constraints!
+	\end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}{Decision Variables}
+	\begin{center}
+      \input{kautzSequence.tikz}
+	\end{center}
+	\visible<2->{We only need two types of decision variables!}
+	\begin{enumerate}
+		\item<3-> $a_{i}^t$ -- Action $i$ is executed at time $t$.
+		\item<4-> $v_{i}^t$ -- State variable $i$ is true at time $t$.
+	\end{enumerate}
+\end{frame}
+
+
+
+
+\begin{frame}<2->{Overall Formula}
+	\vspace{-0.1cm}
+	\begin{center}
+      \input{kautzSequence.tikz}
+	\end{center}
+	\vspace{-.5cm}
+	\visible<3->{Constraints to check:}
+	\begin{itemize}
+		\item<3-> Correctly applying actions at each time step ($\tau$).
+		\item<4-> $I$ and $G$ must be respected.
+	\end{itemize}
+	\vspace{-.1cm}
+	\begin{align*}
+		\visible<3->{\mathcal F =} \visible<3->{\bigwedge_{t=0}^{k-1} \tau(t)} \visible<4->{\wedge}
+		\onslide<4->{\bigwedge_{v_i \in I} v_i^0 \wedge \bigwedge_{v_i \in V \setminus I} \hspace{-0.2cm}\neg v_i^0 \wedge \bigwedge_{v_i \in G} v_i^{k}}\visible<3->{\quad \text{here: $k=9$}}
+	\end{align*}
+\end{frame}
+
+
+
+\begin{frame}{Classical Planning via SAT}
+  \begin{center}
+  \begin{tikzpicture}
+    \node[S] (S1) at (-2,0) {};
+    \node[above of=S1,yshift=-.5cm] {$s$};
+    \node[S] (S2) at (0,0)  {};
+    \node[above of=S2,yshift=-.5cm] {$s'$};
+    \draw[->] (S1) --  node[midway,above] {$a$} (S2);
+  \end{tikzpicture}
+  \end{center}
+  Constraints to check by $\tau(t)$:
+  \begin{itemize}[<+(1)->]
+	\item[$F_1$] Preconditions must hold (in $s$).
+	\item[$F_2$] Effects must occur (in $s'$).
+    \item[$F_3$] Unaffected state variables stay unchanged.
+    \item[$F_4$] At most one action per timestep.
+    \item[$F_5$] At least one action per timestep. \visible<+->{Necessary?} \visible<+->{\textbf{No.}}
+  \end{itemize}
+\end{frame}
+
+
+
+
+
+
+\begin{frame}{Classical Planning via SAT}
+ 	\begin{itemize}
+		\item Preconditions must hold:
+\visible<2->{\[F_1 = \bigwedge_{a \in A} a^{t+1} \rightarrow \bigwedge_{v \in pre(a)} v^t\]}
+		\item Effects must occur:
+			\begin{align*}\visible<3->{
+					F_2 = &\left[\bigwedge_{a \in A} a^{t+1} \rightarrow	\bigwedge_{v \in add(a)} v^{t+1}\right]  \hspace{0.75cm} \wedge \\
+					&\left[\bigwedge_{a \in A} a^{t+1} \rightarrow \bigwedge_{v \in del(a)} \neg v^{t+1}\right]}
+			\end{align*}
+	\end{itemize}
+\end{frame}
+
+
+
+
+
+
+\begin{frame}{Classical Planning via SAT}
+ 	\begin{itemize}
+	\item Variables not affected by the executed action must stay the same.
+		\begin{itemize}
+			\item<2->[$\rightarrow$] Frame Problem!
+		\end{itemize}
+			\visible<3->{\begin{align*}F_3 = &\bigwedge_{v \in V} \left[(\neg v^{t} \wedge v^{t+1}) \rightarrow \hspace{-0.2cm}\bigvee_{a \in A \text{ with } v \in add(a)} \hspace{-0.8cm} a^{t+1} \hspace{0.4cm}\right] \wedge \\
+				&\bigwedge_{v \in V}  \left[(v^{t} \wedge \neg v^{t+1}) \rightarrow \hspace{-0.2cm}\bigvee_{a \in A \text{ with } v \in del(a)} \hspace{-0.8cm} a^{t+1} \hspace{0.4cm}\right]
+		\end{align*}}
+		\item Only one action at a time\footnote{Various encodings exist. Typical are pairwise and bitwise. See \url{https://pysathq.github.io/docs/html/api/card.html} for a handy reference}:
+			\visible<4->{\[F_4 = \sum_{a \in A} a^t \leq 1\]}
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Extended Expressiveness}
+ 	\begin{itemize}
+		\item Conditional Effects
+ 		\begin{itemize}
+			\item at least since Madagascar, Rintanen, Heljanko, Niemelä, JAIR'06
+		\end{itemize}
+		\vspace{0.2cm}
+		\pause
+		\item Axioms / Derived Predicates
+ 		\begin{itemize}
+			\item AxSAT, Behnke, Speck, Gnad, JELIA'25
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Other Base Encodings}
+ 	\begin{itemize}
+		\item Partial-Order Causal-Link (POCL) encodings
+ 		\begin{itemize}
+			\item Kautz, McAllester, Selman, KR'96\\ Depending on implementation cubic or quadratic in plan length
+		\end{itemize}
+		\vspace{0.2cm}
+		\pause
+		\item Encoding for SAS+ tasks:
+ 		\begin{itemize}
+			\item SASE, Huang, Chen, Zhang, JAIR'12\\ quadratic (vars) and cubic (clauses) in $|D(v)|$
+		\end{itemize}
+		\vspace{0.2cm}
+		\pause
+		\item Encodings of Lifted Planning:
+ 		\begin{itemize}
+			\item LiSAT, based on POCL, Höller\&Behnke, ICAPS'22
+				\\ quadratic in plan length
+			\item based on QBF, Shaik \& van de Pol, ICAPS'22
+				\\ quadratic in plan length
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+
+
+
+
+
+
+%
+%
+%
+%\subsection{At-most-one}
+%
+%
+%\newcommand{\TwoRowTab}[2]{\begin{tabular}{c}\footnotesize \ensuremath{#1}\\[-.25em]\footnotesize \ensuremath{#2}\end{tabular}}
+%\begin{frame}{At-most-one}
+%	Given a set of decision variables $X = \{x_1, \dots, x_{|X|}\}$. Find a set of clauses that, if satisfied, will ensure that at most one $x \in X$ is true.\\[\baselineskip]
+%	\visible<2->{Naive encoding:}
+%	\visible<2->{\[
+%			\bigwedge_{x_1 \in X} \bigwedge_{x_2 \in X \setminus \{x_1\}} \underbrace{\neg x_1 \vee \neg x_2}_{\TwoRowTab{(x_1\Rightarrow \neg x_2)\ \wedge}{(x_2\Rightarrow \neg x_1)}}
+%	\]}
+%\end{frame}
+%
+%
+%
+%
+%
+%
+%
+%\begin{frame}{At-most-one}
+%	Idea: Introduce new variables!
+%	\pause
+%	\begin{align*}
+%		f_i &\text{ -- from index $i$ on all $x_i$ will be false}\\
+%		&\text{i.e. it is \textbf{f}orbidden to use any $x_i$ after $i$}
+%	\end{align*}
+%	\pause
+%	 Sequential encoding:
+%	\begin{align*}
+%		&\bigwedge_{i=1}^{|X|-1} \underbrace{\neg x_i \vee f_i}_{x_i \Rightarrow f_i} 
+%		&\bigwedge_{i=2}^{|X|-1} \underbrace{\neg f_{i-1} \vee f_{i}}_{f_{i-1} \Rightarrow f_{i}}
+%	\end{align*}
+%	\begin{align*}
+%		&\bigwedge_{i=1}^{|X|} \underbrace{\neg x_i \vee \neg f_{i-1}}_{\TwoRowTab{(x_i \Rightarrow \neg f_{i-1})\ \wedge}{(f_{i-1} \Rightarrow \neg x_i)}}
+%	\end{align*}
+%	%\pause
+%\end{frame}
+%
+%
+%
+%
+%
+%
+%\begin{frame}{At-most-one}
+%	Maybe this is a bit much ...
+%	\pause
+%	\[n_i \text{ -- bit $i$ (0-index) of a $\lceil\log(|X|)\rceil$-digit binary number if one}\]
+%	\pause
+%	Binary encoding:
+%	\begin{align*}
+%		\neg x_i \vee n_j \quad \quad \text{ if } \frac{i}{2^{j}} \mod 2 = 1\\
+%		\neg x_i \vee \neg n_j \quad \quad \text{ if } \frac{i}{2^{j}} \mod 2 = 0\\
+%	\end{align*}
+%\end{frame}
+%
+%
+%
+%
+%%\renewcommand{\citeA}{1}
+%
+%\begin{frame}{Different AMO Implementations}
+%	Overview\footnote{Frisch and Giannaros; SAT Encodings of the At-Most-k Constraint -- Some Old, Some New, Some Fast, Some Slow; 2010}
+%	
+%	\begin{center}
+%	\begin{tabular}{l|l|l|l|l}
+%		encoding & \#clauses & \#new variables \\ \hline \hline
+%		binomial & $n^{2^{\phantom{1}}}$ & 0 \\\hline
+%		binary & $n \log n$ & $\log n$\\\hline
+%		sequential & $3n$ & $n$\\\hline
+%		commander & $\frac{7}{2}n^{\phantom{1^{\phantom{1}}}}$ & $\frac{n}{2}$\\\hline
+%		product & $2(n + n^{\frac{^{\phantom{1}}1^{\phantom{1}}}{m+1}})$ & $2n^{\frac{1}{2}}$\\
+%	\end{tabular}\ \\[1em]
+%	where $n$ is the number of atoms, i.e., $|X|$
+%    \end{center}
+%
+%
+%\end{frame}
+%
+%
+%%\againframe{BoundIteration}
+%
+%
+%\begin{frame}{Classical Planning via SAT}
+%	\begin{center}
+%		There are \textbf{a lot} of improvements to this formula.
+%	\end{center}
+%	\begin{itemize}[<+(1)->]
+%		\item Invariants.
+%		\item $\forall$-step semantics.
+%		\item $\exists$-step semantics.
+%	\end{itemize}
+%\end{frame}

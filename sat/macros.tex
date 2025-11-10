@@ -1,0 +1,125 @@
+
+
+\newcommand\todo[1]{\textbf{\textcolor{red}{TODO: {#1}}}}
+
+\newcommand{\Hyb}              {\textsc{TiHtn}}
+\newcommand{\HTN}              {\textsc{Htn}}
+\newcommand{\POCL}             {\textsc{Pocl}}
+
+% HTN subclasses
+\newcommand{\htn}              {HTN}
+\newcommand{\tihtn}            {TIHTN}%{\ensuremath{\mathit{HTN_{TI}}}}
+\newcommand{\htnnoloop}        {\ensuremath{\mathit{HTN_{acyc}}}}
+\newcommand{\htnordered}       {\ensuremath{\mathit{HTN_{ord}}}}
+\newcommand{\htnall}           {\ensuremath{\mathit{\htn}}}
+\newcommand{\noeff}            {\ensuremath{0\,\mathit{eff}}}
+\newcommand{\nopre}            {\ensuremath{0\,\mathit{pre}}}
+\newcommand{\htnnope}          {\ensuremath{\htn_{\noeff}^{\nopre}}} % HTN without preconditions and effects
+\newcommand{\tihtnnope}        {\ensuremath{\tihtn_{\noeff}^{\nopre}}}
+\newcommand{\minl}             {\ensuremath{ m }}
+\newcommand{\ExePlan}          {\ensuremath{\mathit{EXE}}}
+
+\newcommand{\Lhyb}             {\ensuremath{L_\Hyb}}
+\newcommand{\Lhtn}             {\ensuremath{L_\HTN}}
+\newcommand{\Lexe}             {\ensuremath{L_{prim}}}
+\newcommand{\Ls}               {\ensuremath{L_{\textsc{S}}}}
+
+
+\newcommand{\reg}{\ensuremath{\mathit{REG}}} % regular language
+\newcommand{\cfl}{\ensuremath{\mathit{CF}}} % context-free language
+\newcommand{\csl}{\ensuremath{\mathit{CS}}} % context-sensitive language
+\newcommand{\idlp}{\textsc{Id/Lp}} 
+
+\newcommand{\lba}{linear bounded automaton} 
+\newcommand{\lbaabr}{\textsc{Lba}} 
+\newcommand{\parser}{acceptor} 
+
+% basic definitions
+%
+\newcommand{\Prob}             {\ensuremath{\mathcal{P}}}
+\newcommand{\methods}          {\ensuremath{M}}
+\newcommand{\allTNsX}          {\ensuremath{\mathit{TN}_{\hspace{-0.1em}N}}}
+\newcommand{\allTNsP}          {\ensuremath{\mathit{TN}_{\hspace{-0.1em}O}}}
+\newcommand{\allTNsC}          {\ensuremath{\mathit{TN}_{\hspace{-0.1em}C \cup O}}}
+\newcommand{\Prec}[1]          {\text{prec}_{#1}}   % operator precondition
+\newcommand{\Add}[1]           {\text{add}_{#1}}    % operator add list
+\newcommand{\Del}[1]           {\text{del}_{#1}}    % operator delete list
+\newcommand{\tn}               {\mathrm{tn}}
+\newcommand{\ti}               {c_I}
+\newcommand{\OrdUn}            {\ensuremath{\mathord{\prec}}}
+\newcommand{\sol}[1]           {\ensuremath{Sol_{#1}}}
+\newcommand{\yield}            {\mathrm{yield}}
+\newcommand{\Goal}             {\mathrm{goal}}
+\newcommand{\Edges}            {E}
+\newcommand{\Children}[2]      {\ensuremath{\mathit{ch}(#2,#1)}}   %1==task, 2==tree
+\newcommand{\Ind}[2]           {\ensuremath{\mathit{ind}(#2,#1)}}  %1==task, 2==tree
+
+\newcommand{\phat}             {\ensuremath{\mathcal P_{\text{no-\textsc{h}}}}}
+\newcommand{\pzero}            {\ensuremath{\mathcal P_{\text{no-\textsc{pe}}}}}
+
+% technical definitions
+%
+\newcommand{\Shortcite}[1]     {\citeauthor{#1}~\shortcite{#1}}
+\newcommand{\with}             {\mid}
+\newcommand{\restrict}[1]      {|_{#1}}
+\newcommand{\card}[1]          {\left| #1 \right|}
+\newcommand{\cardSigma}[1]     {\left| #1 \right|_\Sigma}
+\newcommand{\defeq}            {\mathbin{:=}}
+\newcommand{\stsubst}[3]       {#1 [ #2 \! \leftarrow \! #3]}
+
+
+% complexity classes
+%
+\newcommand{\ClassP}               {\ensuremath{\mathbb{P}}}
+\newcommand{\ClassNP}              {\ensuremath{\mathbb{NP}}}
+\newcommand{\ClassNPComplete}      {\ensuremath{\mathbb{NP-complete}}}
+\newcommand{\ClassNPHard}          {\ensuremath{\mathbb{NP-hard}}}
+\newcommand{\ClassPSPACE}          {\ensuremath{\mathbb{\textsc{Pspace}}}}
+\newcommand{\ClassPSPACEComplete}  {\ensuremath{\mathbb{\textsc{Pspace}-complete}}}
+\newcommand{\ClassEXPSPACE}        {\ensuremath{\mathbb{\textsc{Expspace}}}}
+\newcommand{\ClassNEXPTIME}        {\ensuremath{\mathbb{NEXP}}-\textsc{time}}
+
+
+\newcommand{\ONF} {NF$_{\neq1}$}
+\newcommand{\TNF} {NF$_{\geq2}$}
+
+\newcommand{\scalefactor} {0.9125}
+\newcommand{\hierarch} {\HTN} % seems to be redundant
+
+\newcommand{\figabr}[1]{Fig.\,#1}
+\newcommand{\algabr}[1]{Alg.\,#1}
+\newcommand{\thmabr}[1]{Thm.\,#1}
+\newcommand{\lemabr}[1]{Lem.\,#1}
+\newcommand{\propabr}[1]{Prop.\,#1}
+\newcommand{\defabr}[1]{Def.\,#1}
+\newcommand{\corabr}[1]{Cor.\,#1}
+\newcommand{\tababr}[1]{Tab.\,#1}
+\newcommand{\eqabr}[1]{Eq.\,#1}
+
+% for parser
+\newcommand{\tape}[1]{\textsc{Tape-#1}}
+\newcommand{\head}[1]{\textsc{Head-#1}}
+\newcommand{\myfail}[0]{\normalfont  $\mathit{failure}$}
+\newcommand{\mysuccess}[0]{\normalfont  $\mathit{success}$}
+\newcommand{\tapeend}[0]{\textsc{end}}
+\newcommand{\ordok}{\textsc{ok}}
+\newcommand{\treesym}{\ensuremath{o}}
+\newcommand{\pzwei}{$m_{\treesym}$}
+\newcommand{\peins}{$m_{p}$}
+
+\newcommand{\slideTi}[0]{2,3}
+\newcommand{\slideCfWithoutOrderedHTN}[0]{1,2,3}
+\newcommand{\slideNoLoop}[0]{3}
+\newcommand{\slideCf}[0]{0}
+\newcommand{\slideNoop}[0] {0}
+\newcommand{\slideAll}[0] {0}
+
+\newcommand{\erol}{Erol et al., 'Complexity results for HTN planning', Annals of Mathematics and Artificial Intelligence, 1996}
+\newcommand{\geier}{Geier and Bercher, 'On the Decidability of \htn{} Planning with Task Insertion', Int. Joint Conf. on AI, 2011}
+
+\newcommand{\TN}               {\mathrm{tn}}                  % TN == Task Network
+\newcommand{\PO}               {\ensuremath{\mathord{\prec}}} % PO == Partial Order
+\newcommand{\NEWPrec}             {\text{prec}}   % operator precondition
+\newcommand{\NEWAdd}              {\text{add}}    % operator add list
+\newcommand{\NEWDel}              {\text{del}}    % operator delete list
+\newcommand{\AllTNs}           {\ensuremath{\mathit{TN}}}

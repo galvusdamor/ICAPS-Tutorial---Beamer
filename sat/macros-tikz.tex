@@ -1,0 +1,160 @@
+\usetikzlibrary{arrows,chains,decorations.pathmorphing,decorations.shapes,shapes.geometric,positioning,calc,shapes,scopes,backgrounds,fit,matrix,trees}
+\usetikzlibrary{decorations.pathreplacing}
+\tikzset{ onslide/.code args={<#1>#2}{\only<#1>{\pgfkeysalso{#2}}} }
+% \definecolor{uc_prime}{RGB}{0,153,0}  % Standard-Farbe von Tasks
+% \definecolor{uc_second}{RGB}{1,1,1}   % insertion arrows
+% \definecolor{uc_accent}{RGB}{20,80,20}   % Lösungen
+
+\newcommand{\LabelForInit} {init}
+\newcommand{\LabelForGoal} {goals}
+
+% \definecolor{uc_prime}{RGB}{125,154,170}  % modifiziert
+% \definecolor{uc_second}{RGB}{163,38,56}   % insertion arrows
+% \definecolor{uc_accent}{RGB}{169,162,141} % Lösungen
+
+\pgfarrowsdeclare{biggertip}{biggertip}{  
+  \setlength{\arrowsize}{0.03em}  
+  \addtolength{\arrowsize}{.5\pgflinewidth}  
+  \pgfarrowsrightextend{0}  
+  \pgfarrowsleftextend{-5\arrowsize}  
+}{  
+  \setlength{\arrowsize}{0.03em}  
+  \addtolength{\arrowsize}{.5\pgflinewidth}  
+  \pgfpathmoveto{\pgfpoint{-5\arrowsize}{4\arrowsize}}  
+  \pgfpathlineto{\pgfpointorigin}  
+  \pgfpathlineto{\pgfpoint{-5\arrowsize}{-4\arrowsize}}  
+  \pgfusepathqstroke  
+}
+
+\tikzset{
+  math/.style={execute at begin node=$,execute at end node=$},
+  tn/.style={draw,rounded corners=0.8em,minimum width=8.5em,fill=white},      %task network
+  solution/.style={fill=uc_accent!30},
+  modified/.style={fill=uc_prime!30},
+  cut/.style={draw=black,text=black,fill=uc_prime!30},
+  uncut/.style={draw=black,text=black,fill=white},
+  task/.style={thick,math,minimum width=2em,draw,fill=white,text depth=0em,text height=0.7em},
+  primitive/.style={rounded corners=0.2em},
+  abstract/.style={rounded corners=0em},
+  abstractm/.style={abstract,modified},
+  primm/.style={primitive,modified},
+  tprim/.style={task,primitive},                                        % primitive task
+  tabstr/.style={task,abstract},                                        % abstract task
+  insertion/.style={-latex,dashed,draw=uc_second,very thick},           % insertion arrows
+  decomposition/.style={-biggertip,very thick,draw},
+  oc/.style={-latex,thick},                                             % ordering constraints
+  method/.style={rounded corners,draw=\ColorTop,ultra thick,rectangle},
+  onslide/.code args={<#1>#2}{\only<#1>{\pgfkeysalso{#2}}}
+}
+
+\def\emptyDefault#1#2{\ifx&#1&%
+#2\else#1\fi}
+
+\newcommand{\TaskSeq}[1]{
+   \path[start chain=1,every on chain/.style={join=by oc},node distance=0.9em]
+     \foreach \x/\attr in {#1} {
+       node[task,
+          rectangle,
+          on chain=1,
+          primitive,
+          \attr] {\x}};
+}
+
+\newcommand{\MInsert}[1] {Insertion: $#1$}
+\newcommand{\MDec}[1]    {Decomposition: $#1$}
+
+\newcommand{\StackTN}[2] {
+  \tikz[start chain=going below, node distance=0]{
+    \node[on chain,draw=none] {\tikz{\TaskSeq{#1}}};
+    \node[on chain,draw=none] {\tikz{\TaskSeq{#2}}};
+  }
+}
+
+\newcommand{\GF}{}    %comes after a symbol from the first grammar
+\newcommand{\GS}{'}    %comes after a symbol from the second grammar
+
+\newcommand{\BlueBullets}{
+  \renewcommand{\labelitemi}{\textcolor{uc_prime}{$\bullet$}}
+  \renewcommand{\labelitemii}{\textcolor{uc_prime}{$\blacktriangleright$}}
+}
+\newcommand{\BrownBullets}{\renewcommand{\labelitemi}{\textcolor{uc_accent}{$\bullet$}}}
+
+
+\tikzstyle{heading}=[rounded corners=0.3em,inner xsep=0.6em,right=10pt,fill=uc_prime,text=white, text depth=0.1em,font=\bfseries]
+\tikzstyle{box}=[
+  rounded corners=1em,
+  inner sep=1em,
+  inner ysep=1.5em,
+  fill=uc_prime!20,
+  line width=5pt,
+  draw=uc_prime!40,
+  execute at begin node=\BlueBullets
+]
+\tikzstyle{comment}=[
+  box,
+  fill=uc_accent!20,
+  draw=uc_accent!40,
+  execute at begin node=\BrownBullets
+]
+
+
+
+\newcommand{\LegItem}[3]     {\node {$#2 \rightarrow$}; \pgfmatrixnextcell \node[tn] {\tikz{#3}};}
+\newcommand{\LegListItem}[3] {\LegItem{#1}{#2}{\TaskSeq{#3}}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% symbols
+
+\def\foldedpaper#1{
+    \tikz[scale=#1,line width={#1*1pt}]{
+        \def\a{1.41} % relative height
+        \def\b{0.2}  % relative height/width of corner
+        \def\c{0.1}  % relative margin width (on either side)
+        \def\d{0.05} % vertical offset of lines
+        \def\N{6}    % number of lines
+        \draw         (0,0)
+                --  ++(-1,0)
+                --  ++(0,\a)
+                --  ++(1-\b,0)
+                --  ++(\b,-\b)
+                -- cycle;
+        \foreach \lnum in {1,...,\N}{
+            \pgfmathsetmacro\yline{\a-\d-\lnum*\a/(\N+1)}
+            \draw (-1+\c,\yline) -- (-\c,\yline);
+        }
+        \draw[fill=white] (0,\a-\b) -- ++(-\b,0) -- ++ (0,\b);
+    }
+}
+
+% #1 number of teeths
+% #2 radius intern
+% #3 radius extern
+% #4 angle from start to end of the first arc
+% #5 angle to decale the second arc from the first
+% #6 inner radius to cut off
+
+\newcommand{\gear}[7]{
+\tikz[scale=#7,line width={#7*1pt}]{%
+	\fill[even odd rule]
+  (0:#2)
+  \foreach \i [evaluate=\i as \n using {\i-1)*360/#1}] in {1,...,#1}{%
+    arc (\n:\n+#4:#2) {[rounded corners=1.5pt] -- (\n+#4+#5:#3)
+    arc (\n+#4+#5:\n+360/#1-#5:#3)} --  (\n+360/#1:#2)
+  }%
+  (0,0) circle[radius=#6]
+  }
+}
+
+
+\newcommand{\manfig}[1]{
+\tikz[scale=#1,line width={#1*1pt}]{%
+\node[circle,fill,minimum size=5mm] (head) {};
+\node[rounded corners=2pt,minimum height=1.3cm,minimum width=0.4cm,fill,below = 1pt of head] (body) {};
+\draw[line width=1mm,round cap-round cap] ([shift={(2pt,-1pt)}]body.north east) --++(-90:6mm);
+\draw[line width=1mm,round cap-round cap] ([shift={(-2pt,-1pt)}]body.north west)--++(-90:6mm);
+\draw[thick,white,-round cap] (body.south) --++(90:5.5mm);
+}
+}
+
+
+

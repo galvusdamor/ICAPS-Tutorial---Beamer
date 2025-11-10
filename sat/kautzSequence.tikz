@@ -1,0 +1,75 @@
+\begin{tikzpicture}
+  \coordinate (nodeDifferenceH) at (1,0);
+  \coordinate (nodeDifferenceV) at (0,.35);
+  
+  \node at (21,-12) {};
+  \node at (10,-7.5) {};
+  
+  \node<1->[S] (S1) at (11.5,-9.5) {};
+  \node<1->[S] (S2) at ($(S1)+1*(nodeDifferenceH)$) {};
+  \node<1->[S] (S3) at ($(S1)+2*(nodeDifferenceH)$) {};
+  \node<1->[S] (S4) at ($(S1)+3*(nodeDifferenceH)$) {};
+  \node<1->[S] (S5) at ($(S1)+4*(nodeDifferenceH)$) {};
+  \node<1->[S] (S6) at ($(S1)+5*(nodeDifferenceH)$) {};
+  \node<1->[S] (S7) at ($(S1)+6*(nodeDifferenceH)$) {};
+  \node<1->[S] (S8) at ($(S1)+7*(nodeDifferenceH)$) {};
+  \draw<1->[fill] (10.5,-10.) rectangle (10.45,-9.);
+  \node<1-> at (10.45,-8.8) {\tiny $I$};
+  \draw<1->[fill] (19.5,-10.) rectangle (19.45,-9.);
+  \node<1-> at (19.45,-8.8) {\tiny $G$};
+  
+  \draw<1->[->] (10.5,-9.5) -- (S1);
+  \draw<1->[->] (S1) edge [] (S2);
+  \draw<1->[->] (S2) edge [] (S3);
+  \draw<1->[->] (S3) edge [] (S4);
+  \draw<1->[->] (S4) edge [] (S5);
+  \draw<1->[->] (S5) edge [] (S6);
+  \draw<1->[->] (S6) edge [] (S7);
+  \draw<1->[->] (S7) edge [] (S8);
+  \draw<1->[->,shorten >=.5mm] (S8) edge [] (19.5,-9.5);
+  
+  % new: 1-3 was: 2-
+  \node<1-3> at ($(11,-10.5)+1/2*(nodeDifferenceH)$) (label-S0) {\tiny $s_{1}$};
+  \foreach \x in {1,...,8} {
+    \edef\xPlusOne{\x}
+    \pgfmathparse{int(\xPlusOne+1)}
+    \edef\xPlusOne{\pgfmathresult}
+    \node<1-3> at ($(label-S0)+\x*(nodeDifferenceH)$)   {\tiny $s_{\xPlusOne}$};
+  }
+  \node<1-3> at ($(label-S0)-(nodeDifferenceH)$) {\tiny $s_{I}=s_0$};
+  
+  % new: 1-2 was: 3-
+  \node<1-2> at ($(11.5,-9.25)-1/2*(nodeDifferenceH)$) (label-A1) {\tiny $a_{1}$};
+  \foreach \x in {1,...,8} {
+    \edef\xPlusOne{\x}
+    \pgfmathparse{int(\xPlusOne+1)}
+    \edef\xPlusOne{\pgfmathresult}
+    \node<1-2> at ($(label-A1)+\x*(nodeDifferenceH)$)   {\tiny $a_{\xPlusOne}$};
+  }
+  
+  \foreach \x in {11.5,...,19.5} {
+    \edef\upperIndex{\x}
+    \pgfmathparse{int(\upperIndex-10.5)}
+    \edef\upperIndex{\pgfmathresult}
+    \node<3-> at ($(\x,-9.25)-1/2*(nodeDifferenceH)$) (label-A\upperIndex) {\tiny $a_{1}^{\upperIndex}$};
+    \foreach \y in {1,...,4} {
+      \edef\yPlusOne{\y}
+      \pgfmathparse{int(\yPlusOne+1)}
+      \edef\yPlusOne{\pgfmathresult}
+      \node<3-> at ($(label-A\upperIndex)+\y*(nodeDifferenceV)$)    {\tiny $a_{\yPlusOne}^{\upperIndex}$};
+    }
+  }
+  
+  \foreach \x in {10,...,19} {
+    \edef\upperIndex{\x}
+    \pgfmathparse{int(\upperIndex-10)}
+    \edef\upperIndex{\pgfmathresult}
+    \node<4-> at ($(\x,-10.5)+1/2*(nodeDifferenceH)$) (label-V\upperIndex) {\tiny $v_{1}^{\upperIndex}$};
+     \foreach \y in {1,...,3} {
+      \edef\yPlusOne{\y}
+      \pgfmathparse{int(\yPlusOne+1)}
+      \edef\yPlusOne{\pgfmathresult}
+      \node<4-> at ($(label-V\upperIndex)-\y*(nodeDifferenceV)$)    {\tiny $v_{\yPlusOne}^{\upperIndex}$};
+    }
+  }
+\end{tikzpicture}

@@ -1,0 +1,77 @@
+\section*{Summary}
+
+
+\begin{frame}{Further Work}
+  \footnotesize
+  Improvements for classical planning:
+  \begin{itemize}
+    \item Parallel SAT search [Rintanen'04] [Rintanen,Heljanko,Niemel\"a'06].
+    \item Specialised heuristics for SAT solvers [Rintanen'10a] [Rintanen'10b].
+    \item Improved memory management [Rintanen'12].
+    \item Incremental SAT-solving [Gocht\&Balyo'17]. 
+	\item CEGAR-style parallelism [Froleyks,Balyo,Schreiber'19].
+	\item Split representation of actions [Robinson,Gretton,Pham,Sattar'09].
+	\item Optimal planning via MaxSAT [Robinson,Gretton,Pham,Sattar'10].
+	\item Lifted Planning via SAT [Höller\&Behnke'22] or QBF [Shaik\&van de Pol'22].
+  \end{itemize}
+  \vspace{0.25cm}
+  \pause
+  Extensions to non-classical planning:
+  \begin{itemize}
+    \item LTL [Mattm\"uller\&Rintanen'07] [Behnke\&Biundo'18].
+    \item Partial Observability [Pandey\&Rintanen'18].
+    %\item Temporal Planning [Rintanen'17].
+	\item HTN Planning [Behnke,H\"oller,Biundo'17'18].
+	\item FOND [Geffner\&Geffner'18].
+	\item POD [Pandey\&Rintanen'18] [Fadnis\&Rintanen'23].
+	\item Derived Predicates [Behnke,Speck,Gnad'25].
+  \end{itemize}
+  %\begin{center}
+  %  \visible<3->{$\rightarrow$ \url{https://users.aalto.fi/~rintanj1/satplan.html}}
+  %\end{center}
+\end{frame}
+%\begin{frame}
+%	Solving Problems via Translation into SAT:
+%	\begin{itemize}
+%		\item Problem transformation is a general and important concept in computer science.
+%		\item SAT solvers are highly efficient and can be used to solve other difficult problems via transformation, even those in higher complexity classes with appropriate compilation.
+%	\end{itemize}
+%\vspace{0.3cm}
+%
+%	Translating Classical planning into SAT:
+%	\begin{itemize}
+%		\item Classical planning problems can be translated into SAT.
+%		\item State-of-the-art improvements for this formula are based on:
+%		\begin{itemize}
+%			\item State invariants.
+%			\item Parallelism ($\forall$-step, $\exists$-step).
+%		\end{itemize}
+%	\end{itemize}
+%\end{frame}
+
+
+
+%\subsection*{References}
+%
+%\begin{frame}
+%\scriptsize
+%\hspace*{2cm}
+%	\scalebox{.99}{\begin{minipage}{0.9\textwidth}
+%	\begin{itemize}
+%		\item[Bylander'94] The Computational Complexity of Propositional STRIPS Planning.
+%		\item[Kautz\&Selman'92] Planning as Satisfiability.
+%		\item[Kautz\&Selman'96] Pushing the Envelope: Planning, Propositional Logic, and Stochastic Search.
+%		\item[Rintanen'98] A Planning Algorithm not based on Directional Search.
+%		\item[Rintanen'04] Evaluation Strategies for Planning as Satisfiability.
+%		\item[Rintanen,Heljanko,Niemel\"a'06] Planning as Satisfiability: Parallel Plans and Algorithms for Plan Search.
+%		\item[Wehrle\&Rintanen'07] Planning as Satisfiability with Relaxed $\exists$-Step Plans.
+%		\item[Mattm\"uller\&Rintanen'07] Planning for Temporally Extended Goals as Propositional Satisfiability.
+%		\item[Rintanen'10a] Heuristic Planning with SAT: Beyond Uninformed Depth-First Search.
+%		\item[Rintanen'10b] Heuristics for Planning with SAT.
+%		\item[Gocht\&Balyo'17] Accelerating SAT Based Planning with Incremental SAT Solving.
+%		\item[Rintanen'17] Temporal Planning with Clock-Based SMT Encodings.
+%		\item[Behnke\&Biundo'18] X and more Parallelism. Integrating LTL-Next into SAT-based Planning with Trajectory Constraints while Allowing for even more Parallelism.
+%		\item[Randey\&Rintanen'18] Planning for Partial Observability by SAT and Graph Constraints.
+%	\end{itemize}
+%\end{minipage}}
+%\end{frame}

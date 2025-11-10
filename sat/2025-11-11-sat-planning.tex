@@ -1,0 +1,272 @@
+%!TeX program = xelatex
+
+\documentclass[10pt,american,aspectratio=169,xcolor=table]{beamer}
+
+% Languages and fonts
+\usepackage[utf8]{inputenc}
+\usepackage[T2A,T1]{fontenc}
+
+\usepackage{amsmath,amssymb}
+\usepackage{mathtools}
+\usepackage[all]{foreign}
+
+\usepackage[
+  style=numeric, maxcitenames=99, maxbibnames=99, 
+  bibencoding=utf8, language=auto, autolang=other,
+  sorting=none
+]{biblatex}
+
+\usetheme{formally}
+
+\addbibresource{biblio.bib}
+
+\title{%
+  An introduction to\\
+  Planning as Satisfiability
+}
+
+\IfFileExists{config.cfg}{\input{config.cfg}}
+
+\author{%
+  \texorpdfstring{%
+    \begingroup
+      \renewcommand\author[1]{{\small ##1}}%
+      \newcommand\speaker[1]{{\small\alert{##1}}}%
+      \newcommand\affil[1]{{\scriptsize ##1}}%
+      \begin{tabular}{@{} c c c c @{}}
+        \speaker{Gregor Behnke} & 
+        \author{Matteo Cardellini} & 
+        \author{Nicola Gigante} & 
+        \author{Andrea Micheli}\\
+        \affil{University of Amsterdam} & 
+        \affil{University of Genoa }& 
+        \affil{Free University of Bozen-Bolzano }& 
+        \affil{Fondazione Bruno Kessler}\\
+        \affil{The Netherlands }& 
+        \affil{Italy }& 
+        \affil{Italy }& 
+        \affil{Trento, Italy}
+      \end{tabular}% 
+    \endgroup
+  }{%
+    Nicola Gigante
+  }%
+}
+
+\date{%
+  ICAPS 2025\\
+  November 10\\
+  Melbourne, Australia
+}
+
+
+
+
+
+
+\usepackage[headheight=12pt,footheight=12pt]{beamerthemeboxes}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{ulem}
+\usepackage{times}
+\usepackage{paralist}
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{colortbl}
+\usepackage{tikz}                        % (standard)
+\usepackage{ifthen}
+\usepackage{multicol}
+\usepackage{vwcol}
+\usepackage{tabularx}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{arydshln}
+\usepackage{transparent}
+\usepackage{soul}
+\usepackage{contour}
+\usepackage{scalefnt}
+\usepackage{mathtools}
+\usepackage{booktabs}
+\usepackage{adjustbox}
+\usepackage[makeroom,thicklines]{cancel}
+%\usepackage{fontawesome5}
+\usepackage[absolute]{textpos}
+ \setlength{\TPHorizModule}{1mm}%
+ \setlength{\TPVertModule}{1mm}%
+
+\usepackage{amsmath,amsthm,amssymb,stmaryrd}              % (standard)
+\usepackage{multicol,multirow}           % (standard)
+\usepackage{xparse}                      % allows to define own commands with multiple optional arguments
+\usepackage{fontawesome}
+
+\usepackage{etoolbox}
+\usetikzlibrary{decorations.pathreplacing,snakes}
+
+%%%%%%%%%%%%%% Pascals Farben
+\newcommand{\ColorTop}    {uc_prime}
+\newcommand{\ColorBotton} {\ColorTop}
+\newcommand{\BeamerColor} {\ColorBotton}
+
+\DeclareMathOperator*{\AMO}{\mathbb{M}}
+
+\newcommand{\oftotalframenumber}{/\ref{last:slide}}
+
+\include{macros-tikz}
+% \include{AssemblyTaskDomainDefinition}
+
+
+
+\include{macros}
+
+%%%%%%%%%%%%%%%% figure macro
+\newcommand*\ShDec{}
+\newcommand*\ShPl{}
+\newcommand*\ShN{}
+\newcommand*\ShSeq{}
+
+\newcommand{\setPlan}[4]{
+		\renewcommand*\ShDec{#1}
+  \renewcommand*\ShPl{#2}
+  \renewcommand*\ShN{#3}
+  \renewcommand*\ShSeq{#4}
+}
+
+\newcommand*\VCShow{}
+\newcommand*\VCPhaseA{}
+\newcommand*\VCPhaseB{}
+\newcommand*\VCPhaseC{}
+\newcommand*\VCPhaseD{}
+
+%\definecolor{shadegrey}{RGB}{80,20,140}
+\definecolor{shadegrey}{RGB}{140,140,140}
+
+
+
+%\makeatletter
+%\def\@cite#1#2{\footnotetext{[\textbf{#1\if@tempswa , #2\fi}]}}
+
+
+
+
+
+%\NewCommandCopy{\oldPi}{\Pi}
+%\renewcommand{\Pi}{\mathrm{\oldPi}}
+%\NewCommandCopy{\oldDelta}{\Delta}
+%\renewcommand{\Delta}{\mathrm{\oldDelta}}
+%
+%\NewCommandCopy{\oldfrown}{\frown}
+%\renewcommand{\frown}{\vphantom{)}^\oldfrown}
+%\newcommand{\bigfrown}{\mathop{\raisebox{1mm}{\text{\Large$\oldfrown$}}}}
+%\newcommand{\equivalent}{\Longleftrightarrow}
+%\newcommand{\define}{\underline}
+%\newcommand\Tau{T}
+
+%\newcommand{\set}[1]{\{\,#1\,\}}
+%\DeclareRobustCommand{\sledom}{\mathrel{\text{\reflectbox{$\models$}}}}
+
+\newcommand{\add}{\operatorname{add}}
+\newcommand{\del}{\operatorname{del}}
+\newcommand{\pre}{\operatorname{pre}}
+\newcommand{\var}{\operatorname{var}}
+\newcommand{\act}{\operatorname{act}}
+\newcommand{\app}{\operatorname{app}}
+\newcommand{\init}{\operatorname{init}}
+\newcommand{\goal}{\operatorname{goal}}
+\newcommand{\dom}{\operatorname{dom}}
+\newcommand{\rge}{\operatorname{rge}}
+\newcommand{\rel}{\operatorname{rel}}
+
+\newcommand{\addof}[1]{{#1}_{\boldsymbol{\add}}}
+\newcommand{\delof}[1]{{#1}_{\boldsymbol{\del}}}
+\newcommand{\preof}[1]{{#1}_{\boldsymbol{\pre}}}
+\newcommand{\piof}[1]{{#1}_{\boldsymbol{\pi}}}
+\newcommand{\nuof}[1]{{#1}_{\boldsymbol{\nu}}}
+
+\DeclareFontFamily{U}{mathb}{\hyphenchar\font45}
+\DeclareFontShape{U}{mathb}{m}{n}{
+<-6> mathb5 <6-7> mathb6 <7-8> mathb7
+<8-9> mathb8 <9-10> mathb9
+<10-12> mathb10 <12-> mathb12
+}{}
+\DeclareSymbolFont{mathb}{U}{mathb}{m}{n}
+\DeclareMathSymbol{\llcurly}{\mathrel}{mathb}{"CE}
+\DeclareMathSymbol{\ggcurly}{\mathrel}{mathb}{"CF}
+
+\newcommand{\removesomevspace}{\vspace*{-2pt}}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+
+%\newcommand{\unilogo}{\vspace*{-1.5cm}\includegraphics[height=2.05cm]{illc_no_text_logo.jpg}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Anfang der Folien
+\begin{document}
+%\preto\frame{\setcounter{footnote}{0}}
+
+
+\frame[plain]{\titlepage}
+
+% Das Inhaltsverzeichnis
+% \hspace*{-0.7cm}
+% \begin{frame}
+%   \frametitle{Inhaltsverzeichnis}
+%   \tableofcontents
+% \end{frame}
+%\newcommand{\coldot}[1]{\tikz\draw[#1,fill=#1] (0,0) circle (.5ex);}
+
+
+%\newcommand{\HL}{white}
+
+
+\begin{frame}{Introduction}
+\pause
+\begin{center}
+        Why are we even trying to solve planning problems \textbf{ourselves}?\\[1cm]
+                \pause
+        Why can't we have other people solve them \textbf{for us}?
+\end{center}
+\end{frame}
+
+
+\begin{frame}{Agenda}
+\tableofcontents
+\end{frame}
+
+
+\newcommand{\Wider}[2] {\begin{minipage}{#1\textwidth}#2\end{minipage}}
+
+
+\input{fig.def.tex}
+\input{sat}
+\input{theory}
+\input{kautzselman}
+\input{invariants}
+\input{forall-step}
+\input{exists-step}
+\input{summary}
+
+
+\end{document}

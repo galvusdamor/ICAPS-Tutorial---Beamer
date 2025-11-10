@@ -1,0 +1,148 @@
+\section{Theoretical Background}
+
+%\subsection{Classical Planning -- Recap}
+
+
+%\begin{frame}{Classical Planning}
+%
+%    $\mathcal P = (V,A,s_I,g)$
+%    \begin{itemize}
+%	 \item $V$ a set of (binary) state variables.
+%	 \item $A \subseteq 2^V \times 2^V \times 2^V$ a set of actions.
+%     \item $s_I \subseteq V$ the initial state.
+%     \item $g \subseteq V$ the goal.
+%    \end{itemize}\ \\[1em]
+%	
+%    \pause 
+%	A solution $\pi = (a_1, \dots , a_n)$ has
+%    \begin{itemize}
+%		\item to be executable in $s_I$ and
+%		\item to result in a state $s' \supseteq g$.
+%    \end{itemize}\ \\[1em]
+%
+% \begin{tikzpicture}[scale=1.0]
+%    \tikzstyle{A}=[draw,circle,minimum size=4pt,inner sep=0pt]
+%    \tikzstyle{C}=[A,fill=black]
+%    
+%    \newcommand*\GFA{}
+%    \newcommand*\GFB{}
+%    \newcommand*\GFC{}
+%    \newcommand*\GFD{}
+%
+%    %% keep the thing from moving
+%    % \node[] at (0,5) {};
+%    % \node[] at (8,-2) {};
+%    
+%    \draw [fill] (-4/6,-1) rectangle (-4/6-0.03,-2);
+%    \node [] at (-4/6,-.8) {$\scriptstyle s_I$};
+%    \node [] (EP0) at (-4/6-0.1,-1.5) {};
+%  
+%    \draw [fill] (7*4/6,-1) rectangle (7*4/6-0.03,-2);
+%    \node [] at (7*4/6,-.8) {$\scriptstyle s' \supseteq g$};
+%    \node [] (EP8) at (7*4/6+0.09,-1.5) {};
+%    
+%    \foreach \x in {1,...,7}
+%      \pgfmathtruncatemacro{\xminusone}{\x - 1}
+%      \node [C] (EP\x) at (4/6*\xminusone,-1.5) {};
+%    \foreach \x in {0,...,7}	
+%      \pgfmathtruncatemacro{\xplusone}{\x + 1}
+%      \draw [->] (EP\x) -- (EP\xplusone);
+%  \end{tikzpicture}
+%\end{frame}
+
+
+
+
+
+
+%\subsection{Complexity}
+
+
+\begin{frame}{Computational Complexity}
+	\begin{definition}[\textsc{PlanEx}]
+		Given a planning problem $\mathcal P$.\\
+		Is there a solution $\pi$ of $\mathcal P$.
+	\end{definition}
+	\begin{theorem}<+(1)->[Bylander'94]
+		\textsc{PlanEx} is $\mathbb{PSPACE}$-complete.
+	\end{theorem}
+
+	\begin{theorem}<+(1)->[Bylander'94]
+		\textsc{PlanEx} with bounded plan length $k$ is $\mathbb{PSPACE}$-complete.
+	\end{theorem}
+
+	\centering\ \\[.25em]
+	\visible<+(1)->{$\mathbb{PSPACE}$ with $\mathbb{NP}$ calculus?}
+\end{frame}
+
+
+
+
+
+
+\subsection{Bridging the Gap between $\mathbb{NP}$ and $\mathbb{PSPACE}$}
+
+
+\begin{frame}{Transformation Idea}
+	\begin{itemize}[<+->]
+		\item Bounded plan length assumes binary encoding of $k$.
+		\item What if we assume $k$ in \emph{unary} encoding?
+		\item \textsc{PlanEx} ``becomes'' $\mathbb{NP}$-``complete''.
+		\item For full \textsc{PlanEx}: how to choose the plan length?
+		\begin{itemize}
+			\item Theoretical limit: $2^{|V|}$.
+			\item Practical limit: usually smaller (sometimes polynomially bounded).
+			\item Work by Abdulaziz [AAAI'21]
+		\end{itemize}
+		\item{Start with a small $k$ and increase until a solution is found.}
+	\end{itemize}
+\end{frame}
+
+
+
+
+
+
+\begin{frame}[label=BoundIteration]{Bound Iteration}
+\centering
+\scalebox{0.5}{\begin{tikzpicture}
+    \node (X) at (-3,1.5) {\foldedpaper{1}};
+	\node at (-3,0.4) {Planning Problem};
+    
+	\draw[thick,line width=0.3mm,->] (-2,1.5) -- (-0.25,1.5);
+	\node at (16.5,4.5) {};
+	\node at (16.5,-4.1) {};
+
+    \node at (1,1) {\gear{10}{1.8}{2.4}{10}{2}{0.8}{0.2}};
+    \node at (1.9,1.2) {\gear{10}{1.8}{2.4}{10}{2}{0.8}{0.2}};
+    \draw (3,3) rectangle (0,0);
+    \node at (1.5,2.5) {Transformer};
+    \node<1-3> at (1.5,2.0) {$k=1$};
+    \node<4> at (1.5,2.0) {$k=2$};
+    \node<5> at (1.5,2.0) {$k=3$};
+    \node<6> at (1.5,2.0) {$k=\dots$};
+    \node<7> at (1.5,2.0) {$k=2^{|V|}$};
+    
+    \draw[thick,line width=0.3mm,->] (3.25,1.5) -- (5,1.5);
+
+	\node (X) at (6,1.5) {\foldedpaper{1}};
+	\node at (6,0.4) {SAT problem};
+    
+	\draw[thick,line width=0.3mm,->] (7,1.5) -- (8.75,1.5);
+
+    \node at (10,1) {\color{red}\gear{10}{1.8}{2.4}{10}{2}{0.8}{0.2}};
+    \node at (10.9,1.2) {\color{red}\gear{10}{1.8}{2.4}{10}{2}{0.8}{0.2}};
+    \draw (12,3) rectangle (9,0);
+    \node at (10.5,2.5) {SAT Solver};
+	
+	\draw<2->[thick,line width=0.3mm,->] (12.25,1.75) -- (14, 3.5);
+	\draw<2->[thick,line width=0.3mm,->] (12.25,1.25) -- (14,-0.5);
+	\node<2-> (X) at (15,3.5) {\foldedpaper{1}};
+	\node<2-> (X) at (15,2.4) {Solution};
+	\node<2-> (X) at (15,-0.5) {\scalebox{4}{$\emptyset$}};
+	\node<2-> (X) at (15,-1.4) {Unsolvable};
+
+	\draw<3->[thick,line width=0.3mm,->] (15,-1.8) to [bend left] (1.5,-0.5);
+\end{tikzpicture}}
+\end{frame}
+

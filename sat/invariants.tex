@@ -1,0 +1,25 @@
+\section{Invariants}
+
+
+\begin{frame}{What are Invariants?}
+\begin{center}
+	Is there \textbf{anything} we know about states in a planning problem?
+\end{center}
+
+\pause
+\begin{definition}[Invariant]
+	An invariant $\mathcal I$ is a formula over the state variables such that for all states $s$ reachable from $s_I$ it holds $s \models \mathcal I$.
+\end{definition}
+
+\pause
+
+There are known methods for computing invariants \\ \qquad \qquad (e.g. Rintanen, AAAI'00 or Alcázar \&  Torralba, ICAPS'15).\\
+\pause
+The ones that interest us here are binary disjunctive invariants:
+\[\ell_1 \vee \ell_2\]
+\pause
+	What to do with an invariant $\ell_1 \vee \ell_2$?\pause
+	Add it to every timestep $t$ as $\ell_1^t \vee \ell_2^t$.\\[\baselineskip]
+\pause These clauses are probably helpful for SAT-based planner, Rintanen, KR'08
+\end{frame}
+
